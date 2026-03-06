@@ -1,4 +1,4 @@
-const CACHE_NAME = "pomodoro-cache-v9";
+const CACHE_NAME = "pomodoro-cache-v11";
 
 const urlsToCache = [
     "./",

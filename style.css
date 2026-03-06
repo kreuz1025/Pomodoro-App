@@ -411,7 +411,7 @@ button:active {
     border: 1px solid var(--border-strong);
     border-radius: 12px;
     padding: 10px 10px;
-    font-size: 14px;
+    font-size: 16px;
     outline: none;
     background: var(--card-solid);
     color: var(--text);
@@ -484,7 +484,7 @@ button:active {
     border: 1px solid var(--border-strong);
     border-radius: 14px;
     padding: 12px 14px;
-    font-size: 14px;
+    font-size: 16px;
     outline: none;
     background: var(--card-solid);
     color: var(--text);
