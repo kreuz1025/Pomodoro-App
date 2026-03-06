@@ -1,4 +1,4 @@
-const CACHE_NAME = "pomodoro-cache-v8";
+const CACHE_NAME = "pomodoro-cache-v9";
 
 const urlsToCache = [
     "./",
@@ -9,10 +9,9 @@ const urlsToCache = [
     "./script.js",
     "./dashboard.js",
     "./manifest.json",
-    "./icon-192.png",
+    "./icon-192.jpg",
     "./icon-512.png"
 ];
-
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
