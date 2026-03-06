@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pomodoro Timer</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ff6b81" />
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("pomodoroTheme");
+      if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+
+  <style>
+    html {
+      background: #fff6f7;
+    }
+
+    html.dark {
+      background: #17151b;
+    }
+  </style>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="content">
+      <div class="header-row">
+        <div class="top-badge">🍅 Study Timer</div>
+        <button id="themeToggleBtn" class="theme-toggle">☀️ Light Mode</button>
+      </div>
+
+      <h1>Pomodoro</h1>
+
+      <div class="dashboard-link-wrap">
+        <a href="dashboard.html" class="dashboard-link-btn">Progress Dashboard</a>
+      </div>
+
+      <div class="mode-pill" id="modeLabel">Focus Time 📚</div>
+
+      <div class="timer-wrap">
+        <div class="timer" id="timer">25:00</div>
+        <div class="status" id="statusText">Ready to focus? Press Start 💖</div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="session-row">
+          <span id="sessionCount">Focus sessions completed: 0</span>
+          <span class="tomatoes" id="tomatoesDisplay">🍅</span>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="start" id="startBtn">▶ Start</button>
+        <button class="reset" id="resetBtn">↺ Reset</button>
+      </div>
+
+      <div class="spotify-wrap" id="spotifyWrap" hidden>
+        <div class="spotify-label">🎧 Focus music</div>
+        <iframe id="spotifyPlayer" style="border-radius:12px"
+          src="https://open.spotify.com/embed/track/04boE4u1AupbrGlI62WvoO?utm_source=generator&theme=0" width="100%"
+          height="152" frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+
+      <div class="quick-modes">
+        <button id="focusModeBtn">📚 Focus</button>
+        <button id="shortBreakBtn">☕ Short Break</button>
+        <button id="longBreakBtn">🌿 Long Break</button>
+      </div>
+
+      <div class="grid-2">
+
+        <div class="card">
+          <details class="collapsible-card">
+            <summary class="collapsible-summary">
+              <div class="card-header" style="width:100%;">
+                <div class="card-title">⚙️ Settings</div>
+              </div>
+            </summary>
+
+            <div class="collapsible-content">
+              <div class="settings-row">
+                <div class="field">
+                  <label for="focusInput">Focus</label>
+                  <input id="focusInput" type="number" min="1" max="180" value="25" />
+                </div>
+                <div class="field">
+                  <label for="shortInput">Short Break</label>
+                  <input id="shortInput" type="number" min="1" max="60" value="5" />
+                </div>
+                <div class="field">
+                  <label for="longInput">Long Break</label>
+                  <input id="longInput" type="number" min="1" max="120" value="15" />
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button class="apply-btn" id="applySettingsBtn">Apply</button>
+                <button class="defaults-btn" id="resetDefaultsBtn">Default</button>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <details class="collapsible-card">
+            <summary class="collapsible-summary">
+              <div class="card-header" style="width:100%;">
+                <div class="card-title">📊 Study Habit Tracker</div>
+              </div>
+            </summary>
+
+            <div class="collapsible-content">
+              <div class="habit-grid">
+                <div class="habit-box">
+                  <div class="habit-label">Today</div>
+                  <div class="habit-value" id="habitTodaySessions">0 🍅</div>
+                  <div class="habit-sub">focus sessions</div>
+                </div>
+
+                <div class="habit-box">
+                  <div class="habit-label">Focused</div>
+                  <div class="habit-value" id="habitTodayMinutes">0 min</div>
+                  <div class="habit-sub">today</div>
+                </div>
+
+                <div class="habit-box">
+                  <div class="habit-label">Streak</div>
+                  <div class="habit-value" id="habitStreak">0 🔥</div>
+                  <div class="habit-sub">days</div>
+                </div>
+              </div>
+
+              <div class="settings-actions" style="margin-top: 12px;">
+                <button class="defaults-btn" id="resetHabitBtn">Reset Habit Data</button>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <details class="collapsible-card">
+            <summary class="collapsible-summary">
+              <div class="card-header" style="width:100%;">
+                <div class="card-title">📅 Study Calendar</div>
+              </div>
+            </summary>
+
+            <div class="collapsible-content">
+              <div class="card-header" style="margin-top:10px;">
+                <div class="card-title" id="calendarTitleMonth" style="font-size: 1rem;">Month</div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <button class="defaults-btn" id="calPrevBtn">‹</button>
+                  <div class="task-count" id="calMonthLabel">Month YYYY</div>
+                  <button class="defaults-btn" id="calNextBtn">›</button>
+                </div>
+              </div>
+
+              <div class="cal-weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+              </div>
+
+              <div class="cal-grid" id="calGrid"></div>
+
+              <div class="tiny" id="calInfo">Click a day to see your study stats and deadlines.</div>
+
+              <div class="calendar-events-panel">
+                <div class="calendar-selected-row">
+                  <div class="task-count" id="selectedDateLabel">No date selected</div>
+                </div>
+
+                <div class="task-input-row" style="margin-top:8px;">
+                  <input id="calEventInput" class="task-input" type="text"
+                    placeholder="Add deadline/event (ex: Math quiz, Project due)" />
+                  <button id="addCalEventBtn" class="add-task-btn">+ Add</button>
+                </div>
+
+                <div class="task-list" id="calEventList" style="max-height: 180px;"></div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📝 Today's Tasks</div>
+            <div class="task-count" id="taskCountBadge">0 / 0 done</div>
+          </div>
+
+          <div class="task-input-row">
+            <input id="taskInput" class="task-input" type="text" placeholder="Add a task (ex: Review Chapter 2)" />
+            <button id="addTaskBtn" class="add-task-btn">+ Add</button>
+          </div>
+
+          <div class="task-list" id="taskList"></div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Pomodoro cycle: <b>Focus</b> → <b>Short Break</b><br />
+        Every 4 focus sessions = <b>Long Break</b>
+      </div>
+      <div class="mini-tip">Tip: Start small. Even one pomodoro is progress 🌱</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

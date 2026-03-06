@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Dashboard</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ff6b81" />
+
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("pomodoroTheme");
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        })();
+    </script>
+
+    <style>
+        html {
+            background: #fff6f7;
+        }
+
+        html.dark {
+            background: #17151b;
+        }
+    </style>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+    <div class="app dashboard-app">
+        <div class="content">
+            <div class="header-row">
+                <div class="top-badge">📈 Study Progress</div>
+                <button id="themeToggleBtn" class="theme-toggle">☀️ Light Mode</button>
+            </div>
+
+            <h1>Progress Dashboard</h1>
+            <div class="subtitle">Your study progress overview</div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-title">Focus Sessions Today</div>
+                    <div class="dashboard-value" id="focusSessionsToday">0</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-title">Study Time Today</div>
+                    <div class="dashboard-value" id="studyTimeToday">0 min</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-title">Completed Tasks Today</div>
+                    <div class="dashboard-value" id="completedTasksToday">0</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-title">Current Streak</div>
+                    <div class="dashboard-value" id="currentStreak">0 days</div>
+                </div>
+
+                <div class="dashboard-card wide">
+                    <div class="dashboard-title">Study Time This Week</div>
+                    <div class="dashboard-value" id="studyTimeWeek">0 min</div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <a href="index.html" class="dashboard-link-btn">Back to Pomodoro</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
