@@ -1,5 +1,7 @@
 .dashboard-app {
-    width: min(720px, 96vw);
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
 }
 
 .dashboard-grid {
